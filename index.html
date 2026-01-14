@@ -14,7 +14,7 @@
         }
 
         :root {
-            /* Color Palette */
+            /* Color Palette - Dynamic */
             --sand: #f8f5f0;
             --charcoal: #2a2829;
             --rust: #a0522d;
@@ -22,6 +22,7 @@
             --steel: #778899;
             --patina: #7393b3;
             --shadow: rgba(42, 40, 41, 0.1);
+            --golden-hour: 0;
             
             /* Spacing */
             --space-xs: 0.5rem;
@@ -29,11 +30,6 @@
             --space-md: 2rem;
             --space-lg: 4rem;
             --space-xl: 6rem;
-            
-            /* Borders */
-            --radius-sm: 4px;
-            --radius-md: 8px;
-            --radius-lg: 16px;
         }
 
         html {
@@ -46,60 +42,66 @@
             color: var(--charcoal);
             background-color: var(--sand);
             overflow-x: hidden;
+            opacity: 0;
+            animation: fadeInBody 1.5s ease-out forwards;
+        }
+
+        @keyframes fadeInBody {
+            to { opacity: 1; }
         }
 
         h1, h2, h3, h4 {
             font-family: Georgia, 'Times New Roman', Times, serif;
             font-weight: 400;
             line-height: 1.2;
+            transform: translateY(20px);
+            opacity: 0;
+            animation: slideUpFade 0.8s ease forwards;
         }
 
-        h1 {
-            font-size: clamp(2.5rem, 5vw, 4rem);
-            letter-spacing: -0.5px;
-        }
-
-        h2 {
-            font-size: clamp(2rem, 4vw, 3rem);
-            margin-bottom: var(--space-md);
-            position: relative;
-        }
-
-        h2::after {
-            content: '';
-            position: absolute;
-            bottom: -0.5rem;
-            left: 0;
-            width: 3rem;
-            height: 2px;
-            background-color: var(--rust);
+        @keyframes slideUpFade {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
         }
 
         section {
             padding: var(--space-xl) var(--space-md);
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
+            position: relative;
+            overflow: hidden;
         }
 
-        p {
-            font-size: clamp(1rem, 2.5vw, 1.125rem);
-            margin-bottom: var(--space-sm);
+        /* ===== ANIMATED BACKGROUND ELEMENTS ===== */
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
         }
 
-        a {
-            color: var(--rust);
-            text-decoration: none;
-            transition: color 0.3s ease;
+        .floating-element {
+            position: absolute;
+            opacity: 0.05;
+            animation: float 20s infinite ease-in-out;
         }
 
-        a:hover {
-            color: var(--charcoal);
-        }
+        .floating-element:nth-child(1) { top: 10%; left: 5%; animation-delay: 0s; }
+        .floating-element:nth-child(2) { top: 20%; right: 15%; animation-delay: 5s; }
+        .floating-element:nth-child(3) { bottom: 30%; left: 20%; animation-delay: 10s; }
+        .floating-element:nth-child(4) { bottom: 20%; right: 10%; animation-delay: 15s; }
 
-        img {
-            max-width: 100%;
-            height: auto;
-            display: block;
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-20px) rotate(90deg); }
+            50% { transform: translateY(10px) rotate(180deg); }
+            75% { transform: translateY(-10px) rotate(270deg); }
         }
 
         /* ===== NAVIGATION ===== */
@@ -108,15 +110,21 @@
             top: 0;
             left: 0;
             right: 0;
-            background: var(--sand);
-            border-bottom: 1px solid var(--shadow);
-            z-index: 1000;
-            padding: var(--space-sm) var(--space-md);
+            background: rgba(248, 245, 240, 0.95);
             backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 2rem;
+            transform: translateY(-100%);
+            animation: slideDownNav 0.8s 0.5s ease-out forwards;
+            border-bottom: 1px solid rgba(160, 82, 45, 0.1);
+        }
+
+        @keyframes slideDownNav {
+            to { transform: translateY(0); }
         }
 
         .nav-container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             display: flex;
             justify-content: space-between;
@@ -125,16 +133,25 @@
 
         .nav-links {
             display: flex;
-            gap: var(--space-md);
+            gap: 3rem;
             list-style: none;
         }
 
+        .nav-links li {
+            position: relative;
+            overflow: hidden;
+        }
+
         .nav-links a {
+            color: var(--charcoal);
+            text-decoration: none;
             font-size: 0.95rem;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            padding: var(--space-xs) 0;
+            letter-spacing: 1px;
+            padding: 0.5rem 0;
             position: relative;
+            display: block;
+            transition: color 0.3s ease;
         }
 
         .nav-links a::after {
@@ -142,14 +159,19 @@
             position: absolute;
             bottom: 0;
             left: 0;
-            width: 0;
-            height: 1px;
-            background-color: var(--rust);
-            transition: width 0.3s ease;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--rust), var(--olive));
+            transform: translateX(-100%);
+            transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
         }
 
         .nav-links a:hover::after {
-            width: 100%;
+            transform: translateX(0);
+        }
+
+        .nav-links a:hover {
+            color: var(--rust);
         }
 
         /* ===== HERO SECTION ===== */
@@ -158,104 +180,228 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(
+                135deg,
+                hsl(40, 30%, calc(90% + var(--golden-hour))) 0%,
+                hsl(30, 40%, calc(85% + var(--golden-hour))) 100%
+            );
+            transition: background 2s ease;
+        }
+
+        .hero-content {
             text-align: center;
-            padding-top: 5rem;
+            position: relative;
+            z-index: 2;
+            padding: 4rem;
+            background: rgba(248, 245, 240, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            transform: translateY(50px) scale(0.9);
+            opacity: 0;
+            animation: heroAppear 1.2s 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+        }
+
+        @keyframes heroAppear {
+            to {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 8vw, 6rem);
+            letter-spacing: -1px;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--charcoal) 0%, var(--rust) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation-delay: 1.2s;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            color: var(--rust);
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeIn 0.8s 1.5s ease forwards;
+        }
+
+        .hero-divider {
+            width: 100px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--rust), transparent);
+            margin: 2rem auto;
+            opacity: 0;
+            animation: expandWidth 1s 1.8s ease forwards;
+        }
+
+        @keyframes expandWidth {
+            from { width: 0; opacity: 0; }
+            to { width: 100px; opacity: 1; }
+        }
+
+        .time-greeting {
+            font-size: clamp(1.1rem, 2.5vw, 1.3rem);
+            color: var(--charcoal);
+            font-style: italic;
+            min-height: 2rem;
+            opacity: 0;
+            animation: fadeIn 0.8s 2s ease forwards;
+            position: relative;
+        }
+
+        .time-greeting::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 2px;
+            background: var(--rust);
+            opacity: 0;
+            animation: fadeIn 0.5s 2.3s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        /* ===== ABOUT SECTION ===== */
+        .about-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-text {
+            opacity: 0;
+            transform: translateX(-30px);
+        }
+
+        .about-text.visible {
+            animation: slideInRight 0.8s ease forwards;
+        }
+
+        @keyframes slideInRight {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .about-highlights {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .highlight {
+            text-align: center;
+            padding: 2rem;
+            background: white;
+            border-radius: 20px;
+            border: 1px solid rgba(160, 82, 45, 0.1);
+            transform: translateY(30px);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            cursor: pointer;
+        }
+
+        .highlight:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(160, 82, 45, 0.15);
+            border-color: var(--rust);
+        }
+
+        .highlight-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+
+        .highlight:hover .highlight-icon {
+            transform: scale(1.2) rotate(10deg);
+        }
+
+        /* ===== MENU SECTION ===== */
+        .menu-section {
+            background: linear-gradient(135deg, rgba(248, 245, 240, 0.8) 0%, rgba(255, 255, 255, 0.9) 100%);
+            border-radius: 40px;
+            margin: 4rem auto;
+            padding: 4rem;
             position: relative;
             overflow: hidden;
         }
 
-        .hero::before {
+        .menu-section::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(to bottom, var(--sand) 0%, transparent 50%, var(--sand) 100%);
-            z-index: 1;
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 2;
-            padding: var(--space-lg);
-            background: rgba(248, 245, 240, 0.9);
-            border-radius: var(--radius-lg);
-            backdrop-filter: blur(5px);
-            max-width: 800px;
-            margin: var(--space-md);
-        }
-
-        .time-greeting {
-            font-size: clamp(1.25rem, 3vw, 1.5rem);
-            color: var(--rust);
-            margin-top: var(--space-sm);
-            font-style: italic;
-            min-height: 2rem;
-        }
-
-        .hero-divider {
-            width: 100px;
-            height: 1px;
-            background: var(--charcoal);
-            margin: var(--space-md) auto;
-            opacity: 0.3;
-        }
-
-        /* ===== ABOUT SECTION ===== */
-       .about-content {
-        position: relative;
-        z-index: 2;
-        margin-top: var(--space-lg);
-        }
-
-        .about-highlights {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: var(--space-md);
-            margin-top: var(--space-lg);
-        }
-
-        .highlight {
-            text-align: center;
-            padding: var(--space-md);
-        }
-
-        .highlight-icon {
-            font-size: 2.5rem;
-            margin-bottom: var(--space-sm);
-            color: var(--rust);
-        }
-
-        /* ===== MENU SECTION ===== */
-        .menu-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: var(--space-md);
-            margin-bottom: var(--space-lg);
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 20px,
+                rgba(160, 82, 45, 0.03) 20px,
+                rgba(160, 82, 45, 0.03) 40px
+            );
+            pointer-events: none;
         }
 
         .bottle-cap-container {
             position: relative;
-            height: 120px;
-            margin: var(--space-lg) auto;
+            height: 200px;
+            margin: 4rem auto;
             display: flex;
             justify-content: center;
             align-items: center;
+            perspective: 1000px;
         }
 
         .bottle-cap {
-            width: 100px;
-            height: 100px;
-            background: linear-gradient(135deg, #8b7d6b 0%, #a69b8d 100%);
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(135deg, 
+                #8b7d6b 0%,
+                #a69b8d 30%,
+                #c4b9a9 50%,
+                #a69b8d 70%,
+                #8b7d6b 100%
+            );
             border-radius: 50%;
             position: relative;
             cursor: pointer;
-            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            z-index: 2;
+            transform-style: preserve-3d;
+            transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.3),
+                inset 0 10px 30px rgba(255, 255, 255, 0.3),
+                inset 0 -10px 30px rgba(0, 0, 0, 0.3);
+            animation: capGlow 2s infinite alternate;
+        }
+
+        @keyframes capGlow {
+            0% { box-shadow: 
+                    0 20px 40px rgba(0, 0, 0, 0.3),
+                    inset 0 10px 30px rgba(255, 255, 255, 0.3),
+                    inset 0 -10px 30px rgba(0, 0, 0, 0.3); }
+            100% { box-shadow: 
+                    0 20px 50px rgba(160, 82, 45, 0.4),
+                    inset 0 10px 40px rgba(255, 255, 255, 0.4),
+                    inset 0 -10px 40px rgba(0, 0, 0, 0.4); }
         }
 
         .bottle-cap::before {
@@ -265,32 +411,21 @@
             left: 10px;
             right: 10px;
             bottom: 10px;
-            border: 2px solid rgba(255, 255, 255, 0.2);
+            border: 3px solid rgba(255, 255, 255, 0.3);
             border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.1) 0%, rgba(0,0,0,0.1) 100%);
         }
-
-        .about-content > div {
-        background: rgba(255, 255, 255, 0.85);
-        padding: var(--space-md);
-        border-radius: var(--radius-md);
-    }
-    #about {
-        position: relative;
-        z-index: 1;
-    }
-
-
 
         .cap-notch {
             position: absolute;
-            width: 20px;
-            height: 4px;
-            background: var(--charcoal);
+            width: 30px;
+            height: 6px;
+            background: linear-gradient(90deg, #2a2829, #4a4647);
             top: 50%;
-            left: 10px;
+            left: 15px;
             transform: translateY(-50%);
-            border-radius: 2px;
-            opacity: 0.7;
+            border-radius: 3px;
+            box-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
 
         .cap-text {
@@ -299,102 +434,178 @@
             left: 50%;
             transform: translate(-50%, -50%);
             color: white;
-            font-size: 0.8rem;
-            letter-spacing: 1px;
+            font-size: 1.2rem;
+            letter-spacing: 2px;
             text-transform: uppercase;
-            opacity: 0.9;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .cap-sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: white;
+            border-radius: 50%;
+            opacity: 0;
         }
 
         .menu-filters {
             display: flex;
-            gap: var(--space-xs);
+            justify-content: center;
+            gap: 1rem;
+            margin: 3rem 0;
             flex-wrap: wrap;
-            margin-bottom: var(--space-lg);
         }
 
         .filter-btn {
-            padding: var(--space-xs) var(--space-md);
+            padding: 1rem 2rem;
             background: transparent;
-            border: 1px solid var(--shadow);
-            border-radius: var(--radius-sm);
+            border: 2px solid var(--rust);
+            border-radius: 50px;
             cursor: pointer;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--rust);
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .filter-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: var(--rust);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+            z-index: -1;
+        }
+
+        .filter-btn:hover::before {
+            width: 300px;
+            height: 300px;
         }
 
         .filter-btn:hover,
         .filter-btn.active {
-            background: var(--rust);
             color: white;
             border-color: var(--rust);
         }
 
+        .filter-btn.active::before {
+            width: 300px;
+            height: 300px;
+        }
+
         .menu-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: var(--space-md);
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
             opacity: 1;
             transition: opacity 0.3s ease;
         }
 
         .menu-grid.fading {
-            opacity: 0.5;
+            opacity: 0.3;
         }
 
         .menu-item {
-            padding: var(--space-md);
-            border: 1px solid var(--shadow);
-            border-radius: var(--radius-md);
-            transition: transform 0.3s ease, border-color 0.3s ease;
+            padding: 2rem;
+            background: white;
+            border-radius: 20px;
+            border: 1px solid rgba(160, 82, 45, 0.1);
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            position: relative;
+            overflow: hidden;
+            transform: translateY(50px);
+            opacity: 0;
+        }
+
+        .menu-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(160, 82, 45, 0.05), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .menu-item:hover::before {
+            left: 100%;
         }
 
         .menu-item:hover {
-            transform: translateY(-4px);
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px rgba(160, 82, 45, 0.2);
             border-color: var(--rust);
         }
 
         .menu-item.sold-out {
-            opacity: 0.5;
-            pointer-events: none;
+            opacity: 0.6;
+            filter: grayscale(50%);
         }
 
         .item-header {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: var(--space-xs);
+            margin-bottom: 1rem;
         }
 
         .item-name {
-            font-size: 1.25rem;
+            font-size: 1.5rem;
             font-weight: 600;
+            background: linear-gradient(135deg, var(--charcoal), var(--rust));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
         }
 
         .item-price {
             color: var(--rust);
             font-weight: 600;
-            font-size: 1.125rem;
+            font-size: 1.3rem;
+            animation: pricePulse 2s infinite;
+        }
+
+        @keyframes pricePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
         }
 
         .item-desc {
             color: #666;
-            font-size: 0.95rem;
-            margin-bottom: var(--space-sm);
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            line-height: 1.6;
         }
 
         .item-tags {
             display: flex;
-            gap: var(--space-xs);
+            gap: 0.5rem;
             flex-wrap: wrap;
         }
 
         .tag {
             font-size: 0.75rem;
-            padding: 2px 8px;
+            padding: 0.4rem 1rem;
             background: var(--shadow);
-            border-radius: 12px;
+            border-radius: 20px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .tag:hover {
+            transform: scale(1.1);
         }
 
         .tag.veg { background: rgba(107, 142, 35, 0.1); color: var(--olive); }
@@ -403,85 +614,168 @@
 
         .sold-out-badge {
             display: inline-block;
-            padding: 2px 8px;
+            padding: 0.4rem 1rem;
             background: var(--shadow);
             color: #999;
-            font-size: 0.8rem;
-            border-radius: 4px;
-            margin-top: var(--space-xs);
+            font-size: 0.9rem;
+            border-radius: 20px;
+            margin-top: 1rem;
             text-decoration: line-through;
+            animation: soldOutPulse 2s infinite;
+        }
+
+        @keyframes soldOutPulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
         }
 
         /* ===== EVENTS SECTION ===== */
         .events-grid {
             display: grid;
-            gap: var(--space-md);
+            gap: 2rem;
         }
 
         .event-card {
-            padding: var(--space-md);
-            border-left: 3px solid var(--rust);
-            background: white;
-            border-radius: var(--radius-sm);
+            padding: 2rem;
+            background: linear-gradient(135deg, white 0%, #f8f5f0 100%);
+            border-radius: 20px;
+            border-left: 5px solid var(--rust);
+            position: relative;
+            overflow: hidden;
+            transform: translateX(-100px);
+            opacity: 0;
+            transition: all 0.6s ease;
+        }
+
+        .event-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(160, 82, 45, 0.05) 100%);
+            pointer-events: none;
+        }
+
+        .event-card.visible {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .event-card:hover {
+            transform: translateX(20px);
+            box-shadow: 0 20px 40px rgba(160, 82, 45, 0.15);
         }
 
         .event-date {
-            font-size: 0.9rem;
+            font-size: 1rem;
             color: var(--rust);
             font-weight: 600;
-            margin-bottom: var(--space-xs);
+            margin-bottom: 0.5rem;
+            display: inline-block;
+            padding: 0.3rem 1rem;
+            background: rgba(160, 82, 45, 0.1);
+            border-radius: 20px;
         }
 
         /* ===== GALLERY SECTION ===== */
         .gallery-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: var(--space-sm);
-            margin-top: var(--space-lg);
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+            margin-top: 4rem;
         }
 
         .gallery-item {
-            border-radius: var(--radius-md);
+            border-radius: 20px;
             overflow: hidden;
             aspect-ratio: 1;
             position: relative;
             cursor: pointer;
+            transform: scale(0.8) rotate(-5deg);
+            opacity: 0;
+            transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .gallery-item:nth-child(2n) {
+            transform: scale(0.8) rotate(5deg);
+        }
+
+        .gallery-item.visible {
+            transform: scale(1) rotate(0deg);
+            opacity: 1;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05) rotate(0deg) !important;
+            z-index: 10;
         }
 
         .gallery-item img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.5s ease;
+            transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
         }
 
         .gallery-item:hover img {
-            transform: scale(1.05);
+            transform: scale(1.2);
         }
 
         /* ===== CONTACT SECTION ===== */
         .contact-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: var(--space-lg);
+            gap: 4rem;
         }
 
         .contact-info {
             display: flex;
             flex-direction: column;
-            gap: var(--space-md);
+            gap: 2rem;
         }
 
         .contact-item {
             display: flex;
             align-items: flex-start;
-            gap: var(--space-sm);
+            gap: 1rem;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 20px;
+            border: 1px solid rgba(160, 82, 45, 0.1);
+            transition: all 0.4s ease;
+            transform: translateY(30px);
+            opacity: 0;
+        }
+
+        .contact-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(160, 82, 45, 0.1);
+            border-color: var(--rust);
+        }
+
+        .contact-item.visible {
+            animation: slideUpItem 0.6s ease forwards;
+        }
+
+        @keyframes slideUpItem {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
         }
 
         .contact-icon {
             color: var(--rust);
-            font-size: 1.25rem;
-            min-width: 24px;
+            font-size: 1.5rem;
+            min-width: 30px;
+            animation: iconBounce 2s infinite;
+        }
+
+        @keyframes iconBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
         }
 
         .hours-list {
@@ -491,44 +785,95 @@
         .hours-list li {
             display: flex;
             justify-content: space-between;
-            padding: var(--space-xs) 0;
+            padding: 0.8rem 0;
             border-bottom: 1px solid var(--shadow);
+            transition: all 0.3s ease;
+        }
+
+        .hours-list li:hover {
+            padding-left: 1rem;
+            border-color: var(--rust);
         }
 
         /* ===== FOOTER ===== */
         footer {
             background: var(--charcoal);
             color: white;
-            padding: var(--space-lg) var(--space-md);
+            padding: 4rem 2rem;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--rust), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
         }
 
         .footer-content {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
+            position: relative;
+            z-index: 2;
         }
 
         .footer-links {
             display: flex;
             justify-content: center;
-            gap: var(--space-md);
-            margin: var(--space-md) 0;
+            gap: 3rem;
+            margin: 2rem 0;
         }
 
         .footer-links a {
             color: white;
             opacity: 0.8;
-            transition: opacity 0.3s ease;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 0.5rem 1rem;
+        }
+
+        .footer-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--rust);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
         }
 
         .footer-links a:hover {
             opacity: 1;
+            transform: translateY(-2px);
+        }
+
+        .footer-links a:hover::after {
+            width: 100%;
         }
 
         .copyright {
             opacity: 0.6;
             font-size: 0.9rem;
-            margin-top: var(--space-md);
+            margin-top: 2rem;
+            animation: fadeInOut 4s infinite;
+        }
+
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 0.8; }
         }
 
         /* ===== MODAL ===== */
@@ -538,34 +883,49 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.9);
+            background: rgba(0, 0, 0, 0.95);
             display: none;
             justify-content: center;
             align-items: center;
             z-index: 2000;
-            padding: var(--space-md);
+            opacity: 0;
+            transition: opacity 0.5s ease;
         }
 
         .modal.active {
             display: flex;
+            opacity: 1;
         }
 
         .modal-content {
-            max-width: 800px;
+            max-width: 90vw;
             max-height: 90vh;
             position: relative;
+            transform: scale(0.7);
+            transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .modal.active .modal-content {
+            transform: scale(1);
         }
 
         .modal-close {
             position: absolute;
-            top: -40px;
+            top: -60px;
             right: 0;
             background: none;
             border: none;
             color: white;
-            font-size: 2rem;
+            font-size: 3rem;
             cursor: pointer;
-            padding: var(--space-xs);
+            padding: 1rem;
+            opacity: 0.7;
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            opacity: 1;
+            transform: rotate(90deg);
         }
 
         /* ===== RESPONSIVE ===== */
@@ -583,7 +943,17 @@
             }
             
             section {
-                padding: var(--space-lg) var(--space-sm);
+                padding: 3rem 1rem;
+            }
+            
+            .hero-content {
+                padding: 2rem;
+                margin: 1rem;
+            }
+            
+            .menu-section {
+                padding: 2rem;
+                margin: 2rem 1rem;
             }
         }
 
@@ -593,55 +963,60 @@
             }
         }
 
-        /* ===== ANIMATIONS ===== */
-        @keyframes wobble {
-            0%, 100% { transform: rotate(0deg); }
-            25% { transform: rotate(-5deg); }
-            75% { transform: rotate(5deg); }
+        /* ===== SCROLL PROGRESS ===== */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--rust), var(--olive));
+            transform-origin: 0%;
+            transform: scaleX(0);
+            z-index: 1001;
+            transition: transform 0.1s ease;
         }
 
-        @keyframes popUp {
-            0% { 
-                transform: translateY(0) scale(1) rotate(0deg);
-                opacity: 1;
-            }
-            100% { 
-                transform: translateY(-20px) scale(1.5) rotate(180deg);
-                opacity: 0;
-            }
+        /* ===== CURSOR ===== */
+        .custom-cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--rust);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.2s ease, width 0.3s ease, height 0.3s ease;
+            transform: translate(-50%, -50%);
+            mix-blend-mode: difference;
         }
 
-        .bottle-cap.wobble {
-            animation: wobble 0.3s ease-in-out;
+        .custom-cursor.hover {
+            transform: translate(-50%, -50%) scale(1.5);
+            background: var(--rust);
         }
-
-        .bottle-cap.pop-up {
-            animation: popUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-        }
-
-            #about {
-        background: #fff3cd !important;
-        border: 3px solid red !important;
-        min-height: 300px !important;
-        position: relative !important;
-        z-index: 10 !important;
-    }
-
-    #about * {
-        color: #000 !important;
-        opacity: 1 !important;
-        visibility: visible !important;
-    }
-
-
     </style>
 </head>
 <body>
+    <!-- Floating Background Elements -->
+    <div class="floating-elements">
+        <div class="floating-element">🍔</div>
+        <div class="floating-element">🍺</div>
+        <div class="floating-element">🌵</div>
+        <div class="floating-element">🍹</div>
+    </div>
+
+    <!-- Custom Cursor -->
+    <div class="custom-cursor"></div>
+
+    <!-- Scroll Progress -->
+    <div class="scroll-progress"></div>
+
     <!-- Navigation -->
     <nav class="main-nav">
         <div class="nav-container">
             <div class="logo">
-                <h2 style="margin: 0; font-size: 1.25rem;">The Water Stop</h2>
+                <h2 style="margin: 0; font-size: 1.5rem; animation: none; transform: none; opacity: 1;">The Water Stop</h2>
             </div>
             <ul class="nav-links">
                 <li><a href="#about">About</a></li>
@@ -658,14 +1033,13 @@
         <div class="hero-content">
             <h1>The Water Stop</h1>
             <div class="hero-divider"></div>
-            <p>American comfort food on the covered patio in Marfa, Texas</p>
+            <p class="hero-subtitle">American comfort food on the covered patio in Marfa, Texas</p>
             <p class="time-greeting" id="timeGreeting"></p>
         </div>
     </header>
 
     <!-- About Section -->
-    <!-- About Section -->
-<section id="about">
+    <section id="about">
     <h2>Our Story</h2>
 
     <div class="about-content">
@@ -709,50 +1083,49 @@
     </div>
 </section>
 
-
     <!-- Menu Section -->
     <section id="menu">
-        <div class="menu-header">
-            <h2>Menu</h2>
-        </div>
-        
-        <!-- Bottle Cap Animation -->
-        <div class="bottle-cap-container">
-            <div class="bottle-cap" id="bottleCap">
-                <div class="cap-notch"></div>
-                <div class="cap-text">Menu</div>
+        <div class="menu-section">
+           
+            <!-- Bottle Cap Animation -->
+            <div class="bottle-cap-container">
+                <div class="bottle-cap" id="bottleCap">
+                    <div class="cap-notch"></div>
+                    <div class="cap-text">Menu</div>
+                    <!-- Sparkles will be generated by JS -->
+                </div>
             </div>
-        </div>
 
-        <!-- Menu Filters -->
-        <div class="menu-filters">
-            <button class="filter-btn active" data-filter="all">All</button>
-            <button class="filter-btn" data-filter="veg">Vegetarian</button>
-            <button class="filter-btn" data-filter="spicy">Spicy</button>
-            <button class="filter-btn" data-filter="drink">Drinks</button>
-        </div>
+            <!-- Menu Filters -->
+            <div class="menu-filters">
+                <button class="filter-btn active" data-filter="all">All Items</button>
+                <button class="filter-btn" data-filter="veg">Vegetarian</button>
+                <button class="filter-btn" data-filter="spicy">Spicy</button>
+                <button class="filter-btn" data-filter="drink">Drinks</button>
+            </div>
 
-        <!-- Menu Grid -->
-        <div class="menu-grid" id="menuGrid">
-            <!-- Menu items will be generated by JavaScript -->
+            <!-- Menu Grid -->
+            <div class="menu-grid" id="menuGrid">
+                <!-- Menu items will be generated by JavaScript -->
+            </div>
         </div>
     </section>
 
     <!-- Events Section -->
     <section id="events">
-        <h2>Events & Specials</h2>
+        <h2 style="animation-delay: 0.2s">Events & Specials</h2>
         <div class="events-grid">
-            <div class="event-card">
+            <div class="event-card" style="animation-delay: 0.3s">
                 <div class="event-date">Every Thursday</div>
                 <h3>Burger & Beer Night</h3>
                 <p>House burger with any draft beer for $25</p>
             </div>
-            <div class="event-card">
+            <div class="event-card" style="animation-delay: 0.5s">
                 <div class="event-date">Friday & Saturday</div>
                 <h3>Live Music on the Patio</h3>
                 <p>Local musicians from 7-9 PM</p>
             </div>
-            <div class="event-card">
+            <div class="event-card" style="animation-delay: 0.7s">
                 <div class="event-date">Sunday</div>
                 <h3>Family Style Dinner</h3>
                 <p>Rotisserie chicken, sides, and dessert for the table</p>
@@ -762,7 +1135,7 @@
 
     <!-- Gallery Section -->
     <section id="gallery">
-        <h2>Gallery</h2>
+        <h2 style="animation-delay: 0.2s">Gallery</h2>
         <div class="gallery-grid">
             <!-- Gallery items will be generated by JavaScript -->
         </div>
@@ -770,39 +1143,39 @@
 
     <!-- Contact Section -->
     <section id="contact">
-        <h2>Visit Us</h2>
+        <h2 style="animation-delay: 0.2s">Visit Us</h2>
         <div class="contact-grid">
             <div class="contact-info">
-                <div class="contact-item">
+                <div class="contact-item" style="animation-delay: 0.3s">
                     <div class="contact-icon">📍</div>
                     <div>
                         <h3>Address</h3>
                         <p>1300 W San Antonio St<br>Marfa, TX 79843</p>
                     </div>
                 </div>
-                <div class="contact-item">
+                <div class="contact-item" style="animation-delay: 0.5s">
                     <div class="contact-icon">📞</div>
                     <div>
                         <h3>Phone</h3>
-                        <p><a href="tel:+14322953302">(432) 295-3302</a></p>
+                        <p><a href="tel:+14322953302" style="color: var(--rust);">(432) 295-3302</a></p>
                     </div>
                 </div>
-                <div class="contact-item">
+                <div class="contact-item" style="animation-delay: 0.7s">
                     <div class="contact-icon">📧</div>
                     <div>
                         <h3>Email</h3>
-                        <p><a href="mailto:hello@waterstopmarfa.com">hello@waterstopmarfa.com</a></p>
+                        <p><a href="mailto:hello@waterstopmarfa.com" style="color: var(--rust);">hello@waterstopmarfa.com</a></p>
                     </div>
                 </div>
             </div>
             <div class="contact-info">
-                <h3>Hours</h3>
+                <h3 style="animation-delay: 0.4s">Hours</h3>
                 <ul class="hours-list">
-                    <li><span>Monday - Thursday</span><span>5 PM - 9 PM</span></li>
-                    <li><span>Friday - Saturday</span><span>5 PM - 10 PM</span></li>
-                    <li><span>Sunday</span><span>4 PM - 9 PM</span></li>
+                    <li style="animation-delay: 0.5s"><span>Monday - Thursday</span><span>5 PM - 9 PM</span></li>
+                    <li style="animation-delay: 0.6s"><span>Friday - Saturday</span><span>5 PM - 10 PM</span></li>
+                    <li style="animation-delay: 0.7s"><span>Sunday</span><span>4 PM - 9 PM</span></li>
                 </ul>
-                <p><em>Kitchen closes 30 minutes before closing</em></p>
+                <p style="animation-delay: 0.8s; font-style: italic; margin-top: 1rem;"><em>Kitchen closes 30 minutes before closing</em></p>
             </div>
         </div>
     </section>
@@ -810,7 +1183,7 @@
     <!-- Footer -->
     <footer>
         <div class="footer-content">
-            <h2 style="color: white; margin-bottom: var(--space-md);">The Water Stop</h2>
+            <h2 style="color: white; margin-bottom: 2rem; animation: none; transform: none; opacity: 1;">The Water Stop</h2>
             <div class="footer-links">
                 <a href="#about">About</a>
                 <a href="#menu">Menu</a>
@@ -830,304 +1203,259 @@
     </div>
 
     <script>
-        // ===== WATER STOP WEBSITE - SINGLE FILE JAVASCRIPT =====
+        // ===== WATER STOP DYNAMIC WEBSITE =====
         
-        const WaterStop = (() => {
-            // State variables
-            let bottleCapPlayed = false;
-            let currentFilter = 'all';
+        class WaterStopWebsite {
+            constructor() {
+                this.bottleCapPlayed = false;
+                this.currentFilter = 'all';
+                this.sparkles = [];
+                this.scrollY = 0;
+                this.mouseX = 0;
+                this.mouseY = 0;
+                this.isMobile = window.innerWidth <= 768;
+                
+                // DOM References
+                this.refs = {
+                    timeGreeting: document.getElementById('timeGreeting'),
+                    bottleCap: document.getElementById('bottleCap'),
+                    menuGrid: document.getElementById('menuGrid'),
+                    filterButtons: document.querySelectorAll('.filter-btn'),
+                    galleryGrid: document.querySelector('.gallery-grid'),
+                    galleryModal: document.getElementById('galleryModal'),
+                    modalImage: document.getElementById('modalImage'),
+                    modalClose: document.getElementById('modalClose'),
+                    customCursor: document.querySelector('.custom-cursor'),
+                    scrollProgress: document.querySelector('.scroll-progress'),
+                    hero: document.querySelector('.hero')
+                };
+                
+                // Menu Data
+                this.menuItems = [
+                    { id: 1, name: "House Burger", description: "Grass-fed beef, house sauce, pickles, lettuce, tomato on brioche", price: "$18", category: "mains", tags: ["spicy"], available: true },
+                    { id: 2, name: "Green Chile Cheeseburger", description: "Beef patty with roasted green chiles and pepper jack cheese", price: "$19", category: "mains", tags: ["spicy"], available: true },
+                    { id: 3, name: "Spicy Chicken Sandwich", description: "Buttermilk fried chicken with jalapeño slaw and comeback sauce", price: "$17", category: "mains", tags: ["spicy"], available: true },
+                    { id: 4, name: "Caesar Salad", description: "Romaine, parmesan, croutons with optional grilled chicken", price: "$14", category: "mains", tags: ["veg"], available: true },
+                    { id: 5, name: "Black Bean Burger", description: "House-made black bean patty with avocado and chipotle mayo", price: "$16", category: "mains", tags: ["veg"], available: true },
+                    { id: 6, name: "Grain Bowl", description: "Quinoa, roasted vegetables, tahini dressing, pickled onions", price: "$15", category: "mains", tags: ["veg"], available: true },
+                    { id: 7, name: "Jalapeño Mac & Cheese", description: "Creamy mac with roasted jalapeños and breadcrumb topping", price: "$12", category: "sides", tags: ["spicy", "veg"], available: true },
+                    { id: 8, name: "Burrata & Heirloom Tomatoes", description: "Fresh burrata with local tomatoes, basil, balsamic", price: "$14", category: "starters", tags: ["veg"], available: true },
+                    { id: 9, name: "Steak Frites", description: "8oz flat iron steak with garlic fries and chimichurri", price: "$28", category: "mains", tags: [], available: false },
+                    { id: 10, name: "Rotisserie Chicken", description: "Half chicken with roasted potatoes and seasonal vegetables", price: "$24", category: "mains", tags: [], available: true },
+                    { id: 11, name: "Marfa Mule", description: "Local vodka, ginger beer, lime, mint", price: "$14", category: "drinks", tags: ["drink"], available: true },
+                    { id: 12, name: "Desert Paloma", description: "Tequila, grapefruit, lime, chili rim", price: "$13", category: "drinks", tags: ["drink", "spicy"], available: true },
+                    { id: 13, name: "Seasonal Cocktail", description: "Ask your server for today's special creation", price: "$15", category: "drinks", tags: ["drink"], available: false },
+                    { id: 14, name: "Local Beer Flight", description: "Three 5oz pours of Texas craft beers", price: "$16", category: "drinks", tags: ["drink"], available: true },
+                    { id: 15, name: "Elote", description: "Grilled corn, cotija, chili powder, lime", price: "$8", category: "sides", tags: ["spicy", "veg"], available: true }
+                ];
+                
+                // Gallery Images
+                this.galleryImages = [
+                    { src: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80", alt: "Restaurant interior with warm lighting" },
+                    { src: "https://images.unsplash.com/photo-1578474846511-04ba529f0b88?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80", alt: "Burger and fries on wooden table" },
+                    { src: "https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80", alt: "Delicious pizza slice" },
+                    { src: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80", alt: "Cocktails on the patio" },
+                    { src: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80", alt: "Chef preparing food" },
+                    { src: "https://images.unsplash.com/photo-1559925393-8be0ec4767c8?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80", alt: "Patio dining at sunset" }
+                ];
+                
+                this.init();
+            }
             
-            // DOM References
-            const refs = {
-                timeGreeting: document.getElementById('timeGreeting'),
-                bottleCap: document.getElementById('bottleCap'),
-                menuGrid: document.getElementById('menuGrid'),
-                filterButtons: document.querySelectorAll('.filter-btn'),
-                galleryGrid: document.querySelector('.gallery-grid'),
-                galleryModal: document.getElementById('galleryModal'),
-                modalImage: document.getElementById('modalImage'),
-                modalClose: document.getElementById('modalClose')
-            };
+            init() {
+                this.setupTimeGreeting();
+                this.setupBackgroundAnimation();
+                this.setupScrollAnimations();
+                this.setupMenuFiltering();
+                this.renderMenuItems();
+                this.setupGallery();
+                this.setupModal();
+                this.setupCustomCursor();
+                this.setupScrollProgress();
+                this.setupMouseTrail();
+                this.setupParallax();
+                this.setupDynamicColors();
+                this.animateHighlights();
+                
+                // Animate menu items on load
+                setTimeout(() => this.animateMenuItems(), 1000);
+            }
             
-            // Menu Data
-            const menuItems = [
-                {
-                    id: 1,
-                    name: "House Burger",
-                    description: "Grass-fed beef, house sauce, pickles, lettuce, tomato on brioche",
-                    price: "$18",
-                    category: "mains",
-                    tags: ["spicy"],
-                    available: true
-                },
-                {
-                    id: 2,
-                    name: "Green Chile Cheeseburger",
-                    description: "Beef patty with roasted green chiles and pepper jack cheese",
-                    price: "$19",
-                    category: "mains",
-                    tags: ["spicy"],
-                    available: true
-                },
-                {
-                    id: 3,
-                    name: "Spicy Chicken Sandwich",
-                    description: "Buttermilk fried chicken with jalapeño slaw and comeback sauce",
-                    price: "$17",
-                    category: "mains",
-                    tags: ["spicy"],
-                    available: true
-                },
-                {
-                    id: 4,
-                    name: "Caesar Salad",
-                    description: "Romaine, parmesan, croutons with optional grilled chicken",
-                    price: "$14",
-                    category: "mains",
-                    tags: ["veg"],
-                    available: true
-                },
-                {
-                    id: 5,
-                    name: "Black Bean Burger",
-                    description: "House-made black bean patty with avocado and chipotle mayo",
-                    price: "$16",
-                    category: "mains",
-                    tags: ["veg"],
-                    available: true
-                },
-                {
-                    id: 6,
-                    name: "Grain Bowl",
-                    description: "Quinoa, roasted vegetables, tahini dressing, pickled onions",
-                    price: "$15",
-                    category: "mains",
-                    tags: ["veg"],
-                    available: true
-                },
-                {
-                    id: 7,
-                    name: "Jalapeño Mac & Cheese",
-                    description: "Creamy mac with roasted jalapeños and breadcrumb topping",
-                    price: "$12",
-                    category: "sides",
-                    tags: ["spicy", "veg"],
-                    available: true
-                },
-                {
-                    id: 8,
-                    name: "Burrata & Heirloom Tomatoes",
-                    description: "Fresh burrata with local tomatoes, basil, balsamic",
-                    price: "$14",
-                    category: "starters",
-                    tags: ["veg"],
-                    available: true
-                },
-                {
-                    id: 9,
-                    name: "Steak Frites",
-                    description: "8oz flat iron steak with garlic fries and chimichurri",
-                    price: "$28",
-                    category: "mains",
-                    tags: [],
-                    available: false
-                },
-                {
-                    id: 10,
-                    name: "Rotisserie Chicken",
-                    description: "Half chicken with roasted potatoes and seasonal vegetables",
-                    price: "$24",
-                    category: "mains",
-                    tags: [],
-                    available: true
-                },
-                {
-                    id: 11,
-                    name: "Marfa Mule",
-                    description: "Local vodka, ginger beer, lime, mint",
-                    price: "$14",
-                    category: "drinks",
-                    tags: ["drink"],
-                    available: true
-                },
-                {
-                    id: 12,
-                    name: "Desert Paloma",
-                    description: "Tequila, grapefruit, lime, chili rim",
-                    price: "$13",
-                    category: "drinks",
-                    tags: ["drink", "spicy"],
-                    available: true
-                },
-                {
-                    id: 13,
-                    name: "Seasonal Cocktail",
-                    description: "Ask your server for today's special creation",
-                    price: "$15",
-                    category: "drinks",
-                    tags: ["drink"],
-                    available: false
-                },
-                {
-                    id: 14,
-                    name: "Local Beer Flight",
-                    description: "Three 5oz pours of Texas craft beers",
-                    price: "$16",
-                    category: "drinks",
-                    tags: ["drink"],
-                    available: true
-                },
-                {
-                    id: 15,
-                    name: "Elote",
-                    description: "Grilled corn, cotija, chili powder, lime",
-                    price: "$8",
-                    category: "sides",
-                    tags: ["spicy", "veg"],
-                    available: true
-                }
-            ];
-            
-            // Gallery Images (using placeholder URLs)
-            const galleryImages = [
-                {
-                    src: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-                    alt: "Restaurant interior with warm lighting"
-                },
-                {
-                    src: "https://images.unsplash.com/photo-1578474846511-04ba529f0b88?ixlib=rb-1.2.1&auto=format&fit=crop&w-800&q=80",
-                    alt: "Burger and fries on wooden table"
-                },
-                {
-                    src: "https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-                    alt: "Delicious pizza slice"
-                },
-                {
-                    src: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-                    alt: "Cocktails on the patio"
-                },
-                {
-                    src: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-                    alt: "Chef preparing food"
-                },
-                {
-                    src: "https://images.unsplash.com/photo-1559925393-8be0ec4767c8?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-                    alt: "Patio dining at sunset"
-                }
-            ];
-            
-            // ===== INITIALIZATION =====
-            const init = () => {
-                cacheRefs();
-                setupTimeGreeting();
-                setupIntersectionObserver();
-                setupMenuFiltering();
-                renderMenuItems();
-                setupGallery();
-                setupModal();
-            };
-            
-            // ===== CACHE REFERENCES =====
-            const cacheRefs = () => {
-                // Already cached in refs object
-            };
-            
-            // ===== TIME-BASED GREETING =====
-            const setupTimeGreeting = () => {
+            setupTimeGreeting() {
                 const getTimeMessage = () => {
                     const hour = new Date().getHours();
-                    if (hour < 11) return "Morning coffee on the patio";
-                    if (hour < 15) return "Lunch in the West Texas sun";
-                    if (hour < 18) return "Perfect patio weather";
-                    if (hour < 21) return "Evening cocktails under the stars";
-                    return "Kitchen closed — see you tomorrow";
+                    if (hour < 11) return "☕ Morning coffee on the patio";
+                    if (hour < 15) return "🌵 Lunch in the West Texas sun";
+                    if (hour < 18) return "🌅 Perfect patio weather";
+                    if (hour < 21) return "✨ Evening cocktails under the stars";
+                    return "🌙 Kitchen closed — see you tomorrow";
                 };
                 
                 const updateGreeting = () => {
-                    refs.timeGreeting.textContent = getTimeMessage();
+                    const greeting = getTimeMessage();
+                    this.refs.timeGreeting.textContent = greeting;
                     
-                    // Optional: Update color based on time
+                    // Update hero background based on time
                     const hour = new Date().getHours();
-                    if (hour >= 18 || hour < 6) {
-                        refs.timeGreeting.style.color = 'var(--patina)';
-                    }
+                    const goldenHour = Math.sin(hour * Math.PI / 12) * 0.3;
+                    document.documentElement.style.setProperty('--golden-hour', `${goldenHour * 10}%`);
+                    
+                    // Add subtle color to greeting based on time
+                    const colors = ['#a0522d', '#d2691e', '#8b4513', '#cd853f', '#d2b48c'];
+                    const colorIndex = Math.floor(hour / 5) % colors.length;
+                    this.refs.timeGreeting.style.color = colors[colorIndex];
                 };
                 
                 updateGreeting();
-                // Update every minute
                 setInterval(updateGreeting, 60000);
-            };
+            }
             
-            // ===== BOTTLE CAP ANIMATION =====
-            const setupIntersectionObserver = () => {
+            setupBackgroundAnimation() {
+                // Create floating elements
+                const floatingContainer = document.querySelector('.floating-elements');
+                for (let i = 0; i < 8; i++) {
+                    const element = document.createElement('div');
+                    element.className = 'floating-element';
+                    element.innerHTML = ['🍔', '🍺', '🌵', '🍹', '🥩', '🥗', '🍸', '🥓'][i];
+                    element.style.left = `${Math.random() * 100}%`;
+                    element.style.top = `${Math.random() * 100}%`;
+                    element.style.animationDelay = `${Math.random() * 20}s`;
+                    element.style.fontSize = `${Math.random() * 2 + 1}rem`;
+                    floatingContainer.appendChild(element);
+                }
+            }
+            
+            setupScrollAnimations() {
+                const observerOptions = {
+                    threshold: 0.1,
+                    rootMargin: '0px 0px -100px 0px'
+                };
+                
                 const observer = new IntersectionObserver((entries) => {
                     entries.forEach(entry => {
-                        if (entry.isIntersecting && !bottleCapPlayed) {
-                            playBottleCapAnimation();
-                            bottleCapPlayed = true;
+                        if (entry.isIntersecting) {
+                            // Animate bottle cap
+                            if (entry.target.id === 'menu' && !this.bottleCapPlayed) {
+                                this.animateBottleCap();
+                                this.bottleCapPlayed = true;
+                            }
+                            
+                            // Animate elements within section
+                            const elements = entry.target.querySelectorAll('.animate-on-scroll, .highlight, .event-card, .contact-item, .gallery-item');
+                            elements.forEach((el, index) => {
+                                setTimeout(() => {
+                                    el.classList.add('visible');
+                                }, index * 100);
+                            });
                         }
                     });
-                }, { threshold: 0.3 });
+                }, observerOptions);
                 
-                observer.observe(refs.bottleCap);
-            };
+                // Observe all sections
+                document.querySelectorAll('section').forEach(section => {
+                    observer.observe(section);
+                });
+            }
             
-            const playBottleCapAnimation = () => {
-                const cap = refs.bottleCap;
+            animateBottleCap() {
+                const cap = this.refs.bottleCap;
                 
-                // Add wobble animation
-                cap.classList.add('wobble');
+                // Create sparkles
+                this.createSparkles();
                 
-                // After wobble, pop up and fade out
+                // Wobble animation
+                cap.style.animation = 'wobble 0.3s ease-in-out';
+                
+                // Pop open animation
                 setTimeout(() => {
-                    cap.classList.remove('wobble');
-                    cap.classList.add('pop-up');
+                    cap.style.animation = 'popUp 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards';
                     
-                    // Show menu items with delay
+                    // Animate sparkles
+                    this.animateSparkles();
+                    
+                    // Show menu items with staggered animation
                     setTimeout(() => {
-                        refs.menuGrid.style.opacity = '1';
+                        const items = document.querySelectorAll('.menu-item');
+                        items.forEach((item, index) => {
+                            setTimeout(() => {
+                                item.style.animation = `slideUpFade 0.6s ease forwards ${index * 0.1}s`;
+                                item.style.opacity = '1';
+                                item.style.transform = 'translateY(0)';
+                            }, index * 100);
+                        });
                     }, 400);
                 }, 300);
-            };
+            }
             
-            // ===== MENU FILTERING =====
-            const setupMenuFiltering = () => {
-                refs.filterButtons.forEach(button => {
-                    button.addEventListener('click', () => {
-                        // Update active button
-                        refs.filterButtons.forEach(btn => btn.classList.remove('active'));
+            createSparkles() {
+                const cap = this.refs.bottleCap;
+                for (let i = 0; i < 12; i++) {
+                    const sparkle = document.createElement('div');
+                    sparkle.className = 'cap-sparkle';
+                    const angle = (i / 12) * Math.PI * 2;
+                    const radius = 60;
+                    sparkle.style.left = `${50 + Math.cos(angle) * radius}%`;
+                    sparkle.style.top = `${50 + Math.sin(angle) * radius}%`;
+                    cap.appendChild(sparkle);
+                    this.sparkles.push(sparkle);
+                }
+            }
+            
+            animateSparkles() {
+                this.sparkles.forEach((sparkle, index) => {
+                    setTimeout(() => {
+                        sparkle.style.opacity = '1';
+                        sparkle.style.transform = `translate(-50%, -50%) scale(2)`;
+                        sparkle.style.transition = 'all 0.3s ease';
+                        
+                        setTimeout(() => {
+                            sparkle.style.opacity = '0';
+                            sparkle.style.transform = `translate(-50%, -50%) scale(0)`;
+                        }, 300);
+                    }, index * 50);
+                });
+            }
+            
+            setupMenuFiltering() {
+                this.refs.filterButtons.forEach(button => {
+                    button.addEventListener('click', (e) => {
+                        // Remove active class from all buttons
+                        this.refs.filterButtons.forEach(btn => btn.classList.remove('active'));
+                        
+                        // Add active class to clicked button
                         button.classList.add('active');
                         
                         // Get filter value
-                        currentFilter = button.dataset.filter;
+                        this.currentFilter = button.dataset.filter;
                         
-                        // Fade out, filter, fade in
-                        fadeAndFilterMenu();
+                        // Animate filter transition
+                        this.animateFilterTransition();
                     });
                 });
-            };
+            }
             
-            const fadeAndFilterMenu = () => {
-                // Fade out
-                refs.menuGrid.classList.add('fading');
+            animateFilterTransition() {
+                // Fade out current items
+                this.refs.menuGrid.classList.add('fading');
                 
                 // Wait for fade out, then filter and fade in
                 setTimeout(() => {
-                    renderMenuItems();
-                    refs.menuGrid.classList.remove('fading');
+                    this.renderMenuItems();
+                    this.refs.menuGrid.classList.remove('fading');
+                    this.animateMenuItems();
                 }, 300);
-            };
+            }
             
-            const renderMenuItems = () => {
+            renderMenuItems() {
                 // Clear current items
-                refs.menuGrid.innerHTML = '';
+                this.refs.menuGrid.innerHTML = '';
                 
                 // Filter items
-                const filteredItems = menuItems.filter(item => {
-                    if (currentFilter === 'all') return true;
-                    if (currentFilter === 'veg') return item.tags.includes('veg');
-                    if (currentFilter === 'spicy') return item.tags.includes('spicy');
-                    if (currentFilter === 'drink') return item.tags.includes('drink');
+                const filteredItems = this.menuItems.filter(item => {
+                    if (this.currentFilter === 'all') return true;
+                    if (this.currentFilter === 'veg') return item.tags.includes('veg');
+                    if (this.currentFilter === 'spicy') return item.tags.includes('spicy');
+                    if (this.currentFilter === 'drink') return item.tags.includes('drink');
                     return true;
                 });
                 
@@ -1138,11 +1466,11 @@
                 });
                 
                 // Render items
-                filteredItems.forEach(item => {
+                filteredItems.forEach((item, index) => {
                     const menuItem = document.createElement('div');
                     menuItem.className = `menu-item ${!item.available ? 'sold-out' : ''}`;
+                    menuItem.style.animationDelay = `${index * 0.1}s`;
                     
-                    // Create tags HTML
                     const tagsHTML = item.tags.map(tag => 
                         `<span class="tag ${tag}">${tag}</span>`
                     ).join('');
@@ -1157,7 +1485,20 @@
                         ${!item.available ? '<div class="sold-out-badge">Sold Out</div>' : ''}
                     `;
                     
-                    refs.menuGrid.appendChild(menuItem);
+                    // Add hover animation
+                    menuItem.addEventListener('mouseenter', () => {
+                        if (!this.isMobile) {
+                            menuItem.style.transform = 'translateY(-10px) scale(1.02)';
+                        }
+                    });
+                    
+                    menuItem.addEventListener('mouseleave', () => {
+                        if (!this.isMobile) {
+                            menuItem.style.transform = 'translateY(0) scale(1)';
+                        }
+                    });
+                    
+                    this.refs.menuGrid.appendChild(menuItem);
                 });
                 
                 // If no items match filter
@@ -1168,58 +1509,164 @@
                         <h3>No items found</h3>
                         <p>Try another filter or check back soon for new additions!</p>
                     `;
-                    refs.menuGrid.appendChild(noItems);
+                    this.refs.menuGrid.appendChild(noItems);
                 }
-            };
+            }
             
-            // ===== GALLERY SETUP =====
-            const setupGallery = () => {
-                galleryImages.forEach((image, index) => {
+            animateMenuItems() {
+                const items = document.querySelectorAll('.menu-item');
+                items.forEach((item, index) => {
+                    setTimeout(() => {
+                        item.style.animation = `slideUpFade 0.6s ease forwards`;
+                        item.style.opacity = '1';
+                        item.style.transform = 'translateY(0)';
+                    }, index * 100);
+                });
+            }
+            
+            animateHighlights() {
+                const highlights = document.querySelectorAll('.highlight');
+                highlights.forEach((highlight, index) => {
+                    setTimeout(() => {
+                        highlight.style.animation = `slideUpFade 0.6s ease forwards ${index * 0.2}s`;
+                        highlight.style.opacity = '1';
+                        highlight.style.transform = 'translateY(0)';
+                    }, 500 + index * 200);
+                });
+            }
+            
+            setupGallery() {
+                this.galleryImages.forEach((image, index) => {
                     const galleryItem = document.createElement('div');
                     galleryItem.className = 'gallery-item';
+                    galleryItem.style.animationDelay = `${index * 0.1}s`;
                     galleryItem.innerHTML = `
-                        <img src="${image.src}" alt="${image.alt}" loading="lazy" data-index="${index}">
+                        <img src="${image.src}" alt="${image.alt}" loading="lazy">
                     `;
                     
-                    galleryItem.addEventListener('click', () => openModal(image.src, image.alt));
-                    refs.galleryGrid.appendChild(galleryItem);
+                    galleryItem.addEventListener('click', () => this.openModal(image.src, image.alt));
+                    this.refs.galleryGrid.appendChild(galleryItem);
                 });
-            };
+            }
             
-            // ===== MODAL SETUP =====
-            const setupModal = () => {
-                refs.modalClose.addEventListener('click', closeModal);
-                refs.galleryModal.addEventListener('click', (e) => {
-                    if (e.target === refs.galleryModal) closeModal();
+            setupModal() {
+                this.refs.modalClose.addEventListener('click', () => this.closeModal());
+                this.refs.galleryModal.addEventListener('click', (e) => {
+                    if (e.target === this.refs.galleryModal) this.closeModal();
                 });
                 
-                // Close with Escape key
                 document.addEventListener('keydown', (e) => {
-                    if (e.key === 'Escape') closeModal();
+                    if (e.key === 'Escape') this.closeModal();
                 });
-            };
+            }
             
-            const openModal = (src, alt) => {
-                refs.modalImage.src = src;
-                refs.modalImage.alt = alt;
-                refs.galleryModal.classList.add('active');
+            openModal(src, alt) {
+                this.refs.modalImage.src = src;
+                this.refs.modalImage.alt = alt;
+                this.refs.galleryModal.classList.add('active');
                 document.body.style.overflow = 'hidden';
-            };
+            }
             
-            const closeModal = () => {
-                refs.galleryModal.classList.remove('active');
+            closeModal() {
+                this.refs.galleryModal.classList.remove('active');
                 document.body.style.overflow = 'auto';
-            };
+            }
             
-            // ===== EXPOSE PUBLIC METHODS =====
-            return { init };
-        })();
+            setupCustomCursor() {
+                if (this.isMobile) return;
+                
+                document.addEventListener('mousemove', (e) => {
+                    this.mouseX = e.clientX;
+                    this.mouseY = e.clientY;
+                    
+                    this.refs.customCursor.style.left = `${e.clientX}px`;
+                    this.refs.customCursor.style.top = `${e.clientY}px`;
+                });
+                
+                // Add hover effect to interactive elements
+                const interactiveElements = document.querySelectorAll('a, button, .menu-item, .gallery-item');
+                interactiveElements.forEach(el => {
+                    el.addEventListener('mouseenter', () => {
+                        this.refs.customCursor.classList.add('hover');
+                    });
+                    
+                    el.addEventListener('mouseleave', () => {
+                        this.refs.customCursor.classList.remove('hover');
+                    });
+                });
+            }
+            
+            setupScrollProgress() {
+                window.addEventListener('scroll', () => {
+                    this.scrollY = window.scrollY;
+                    const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+                    const scrollProgress = this.scrollY / scrollHeight;
+                    this.refs.scrollProgress.style.transform = `scaleX(${scrollProgress})`;
+                });
+            }
+            
+            setupMouseTrail() {
+                if (this.isMobile) return;
+                
+                document.addEventListener('mousemove', (e) => {
+                    // Create trail elements
+                    const trail = document.createElement('div');
+                    trail.className = 'floating-element';
+                    trail.innerHTML = ['🍔', '🍺', '🌵', '🍹'][Math.floor(Math.random() * 4)];
+                    trail.style.left = `${e.clientX}px`;
+                    trail.style.top = `${e.clientY}px`;
+                    trail.style.opacity = '0.1';
+                    trail.style.fontSize = '0.8rem';
+                    trail.style.animation = 'float 1s ease-out forwards';
+                    
+                    document.querySelector('.floating-elements').appendChild(trail);
+                    
+                    // Remove after animation
+                    setTimeout(() => {
+                        trail.remove();
+                    }, 1000);
+                });
+            }
+            
+            setupParallax() {
+                window.addEventListener('scroll', () => {
+                    const scrolled = window.pageYOffset;
+                    const rate = scrolled * -0.5;
+                    
+                    // Parallax effect on hero
+                    if (this.refs.hero) {
+                        this.refs.hero.style.transform = `translateY(${rate * 0.3}px)`;
+                    }
+                    
+                    // Parallax on floating elements
+                    const floatingElements = document.querySelectorAll('.floating-element');
+                    floatingElements.forEach((el, index) => {
+                        const speed = 0.1 + (index * 0.05);
+                        el.style.transform = `translateY(${rate * speed}px)`;
+                    });
+                });
+            }
+            
+            setupDynamicColors() {
+                // Update colors based on scroll position
+                window.addEventListener('scroll', () => {
+                    const scrollPercent = this.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+                    
+                    // Adjust rust color based on scroll
+                    const rustHue = 25 + scrollPercent * 10;
+                    document.documentElement.style.setProperty('--rust', `hsl(${rustHue}, 50%, 40%)`);
+                    
+                    // Adjust background opacity
+                    document.documentElement.style.setProperty('--shadow', `rgba(42, 40, 41, ${0.1 + scrollPercent * 0.2})`);
+                });
+            }
+        }
         
-        // ===== INITIALIZE ON DOM LOAD =====
+        // ===== INITIALIZE WEBSITE =====
         document.addEventListener('DOMContentLoaded', () => {
-            WaterStop.init();
+            const website = new WaterStopWebsite();
             
-            // Smooth scroll for navigation links
+            // Smooth scroll for navigation
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function(e) {
                     e.preventDefault();
@@ -1244,17 +1691,38 @@
             window.addEventListener('scroll', () => {
                 const nav = document.querySelector('.main-nav');
                 if (window.scrollY > 100) {
-                    nav.style.boxShadow = '0 4px 20px rgba(0,0,0,0.1)';
+                    nav.style.boxShadow = '0 4px 30px rgba(0,0,0,0.1)';
+                    nav.style.background = 'rgba(248, 245, 240, 0.98)';
                 } else {
                     nav.style.boxShadow = 'none';
+                    nav.style.background = 'rgba(248, 245, 240, 0.95)';
                 }
+            });
+            
+            // Add keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowDown') {
+                    window.scrollBy({ top: 100, behavior: 'smooth' });
+                }
+                if (e.key === 'ArrowUp') {
+                    window.scrollBy({ top: -100, behavior: 'smooth' });
+                }
+            });
+            
+            // Add loading animation for images
+            const images = document.querySelectorAll('img');
+            images.forEach(img => {
+                img.addEventListener('load', function() {
+                    this.style.opacity = '1';
+                    this.style.transition = 'opacity 0.5s ease';
+                });
+                img.style.opacity = '0';
             });
         });
         
         // ===== ERROR HANDLING =====
         window.addEventListener('error', (e) => {
             console.error('Website error:', e.error);
-            // Gracefully handle any errors
         });
     </script>
 </body>
