@@ -1,0 +1,1261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Water Stop | Marfa, Texas</title>
+    <meta name="description" content="American comfort food on the covered patio in Marfa, Texas. Dog-friendly, locally loved.">
+    <style>
+        /* ===== CSS RESET & BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Color Palette */
+            --sand: #f8f5f0;
+            --charcoal: #2a2829;
+            --rust: #a0522d;
+            --olive: #6b8e23;
+            --steel: #778899;
+            --patina: #7393b3;
+            --shadow: rgba(42, 40, 41, 0.1);
+            
+            /* Spacing */
+            --space-xs: 0.5rem;
+            --space-sm: 1rem;
+            --space-md: 2rem;
+            --space-lg: 4rem;
+            --space-xl: 6rem;
+            
+            /* Borders */
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --radius-lg: 16px;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            line-height: 1.6;
+            color: var(--charcoal);
+            background-color: var(--sand);
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            font-weight: 400;
+            line-height: 1.2;
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            letter-spacing: -0.5px;
+        }
+
+        h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            margin-bottom: var(--space-md);
+            position: relative;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -0.5rem;
+            left: 0;
+            width: 3rem;
+            height: 2px;
+            background-color: var(--rust);
+        }
+
+        section {
+            padding: var(--space-xl) var(--space-md);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        p {
+            font-size: clamp(1rem, 2.5vw, 1.125rem);
+            margin-bottom: var(--space-sm);
+        }
+
+        a {
+            color: var(--rust);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--charcoal);
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* ===== NAVIGATION ===== */
+        .main-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: var(--sand);
+            border-bottom: 1px solid var(--shadow);
+            z-index: 1000;
+            padding: var(--space-sm) var(--space-md);
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: var(--space-md);
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: var(--space-xs) 0;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background-color: var(--rust);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* ===== HERO SECTION ===== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding-top: 5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, var(--sand) 0%, transparent 50%, var(--sand) 100%);
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            padding: var(--space-lg);
+            background: rgba(248, 245, 240, 0.9);
+            border-radius: var(--radius-lg);
+            backdrop-filter: blur(5px);
+            max-width: 800px;
+            margin: var(--space-md);
+        }
+
+        .time-greeting {
+            font-size: clamp(1.25rem, 3vw, 1.5rem);
+            color: var(--rust);
+            margin-top: var(--space-sm);
+            font-style: italic;
+            min-height: 2rem;
+        }
+
+        .hero-divider {
+            width: 100px;
+            height: 1px;
+            background: var(--charcoal);
+            margin: var(--space-md) auto;
+            opacity: 0.3;
+        }
+
+        /* ===== ABOUT SECTION ===== */
+       .about-content {
+        position: relative;
+        z-index: 2;
+        margin-top: var(--space-lg);
+        }
+
+        .about-highlights {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--space-md);
+            margin-top: var(--space-lg);
+        }
+
+        .highlight {
+            text-align: center;
+            padding: var(--space-md);
+        }
+
+        .highlight-icon {
+            font-size: 2.5rem;
+            margin-bottom: var(--space-sm);
+            color: var(--rust);
+        }
+
+        /* ===== MENU SECTION ===== */
+        .menu-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: var(--space-md);
+            margin-bottom: var(--space-lg);
+        }
+
+        .bottle-cap-container {
+            position: relative;
+            height: 120px;
+            margin: var(--space-lg) auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .bottle-cap {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #8b7d6b 0%, #a69b8d 100%);
+            border-radius: 50%;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            z-index: 2;
+        }
+
+        .bottle-cap::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+        }
+
+        .about-content > div {
+        background: rgba(255, 255, 255, 0.85);
+        padding: var(--space-md);
+        border-radius: var(--radius-md);
+    }
+    #about {
+        position: relative;
+        z-index: 1;
+    }
+
+
+
+        .cap-notch {
+            position: absolute;
+            width: 20px;
+            height: 4px;
+            background: var(--charcoal);
+            top: 50%;
+            left: 10px;
+            transform: translateY(-50%);
+            border-radius: 2px;
+            opacity: 0.7;
+        }
+
+        .cap-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            opacity: 0.9;
+        }
+
+        .menu-filters {
+            display: flex;
+            gap: var(--space-xs);
+            flex-wrap: wrap;
+            margin-bottom: var(--space-lg);
+        }
+
+        .filter-btn {
+            padding: var(--space-xs) var(--space-md);
+            background: transparent;
+            border: 1px solid var(--shadow);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--rust);
+            color: white;
+            border-color: var(--rust);
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: var(--space-md);
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+
+        .menu-grid.fading {
+            opacity: 0.5;
+        }
+
+        .menu-item {
+            padding: var(--space-md);
+            border: 1px solid var(--shadow);
+            border-radius: var(--radius-md);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-4px);
+            border-color: var(--rust);
+        }
+
+        .menu-item.sold-out {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: var(--space-xs);
+        }
+
+        .item-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .item-price {
+            color: var(--rust);
+            font-weight: 600;
+            font-size: 1.125rem;
+        }
+
+        .item-desc {
+            color: #666;
+            font-size: 0.95rem;
+            margin-bottom: var(--space-sm);
+        }
+
+        .item-tags {
+            display: flex;
+            gap: var(--space-xs);
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            font-size: 0.75rem;
+            padding: 2px 8px;
+            background: var(--shadow);
+            border-radius: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .tag.veg { background: rgba(107, 142, 35, 0.1); color: var(--olive); }
+        .tag.spicy { background: rgba(160, 82, 45, 0.1); color: var(--rust); }
+        .tag.drink { background: rgba(115, 147, 179, 0.1); color: var(--patina); }
+
+        .sold-out-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            background: var(--shadow);
+            color: #999;
+            font-size: 0.8rem;
+            border-radius: 4px;
+            margin-top: var(--space-xs);
+            text-decoration: line-through;
+        }
+
+        /* ===== EVENTS SECTION ===== */
+        .events-grid {
+            display: grid;
+            gap: var(--space-md);
+        }
+
+        .event-card {
+            padding: var(--space-md);
+            border-left: 3px solid var(--rust);
+            background: white;
+            border-radius: var(--radius-sm);
+        }
+
+        .event-date {
+            font-size: 0.9rem;
+            color: var(--rust);
+            font-weight: 600;
+            margin-bottom: var(--space-xs);
+        }
+
+        /* ===== GALLERY SECTION ===== */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: var(--space-sm);
+            margin-top: var(--space-lg);
+        }
+
+        .gallery-item {
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            aspect-ratio: 1;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+
+        /* ===== CONTACT SECTION ===== */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-lg);
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-md);
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-sm);
+        }
+
+        .contact-icon {
+            color: var(--rust);
+            font-size: 1.25rem;
+            min-width: 24px;
+        }
+
+        .hours-list {
+            list-style: none;
+        }
+
+        .hours-list li {
+            display: flex;
+            justify-content: space-between;
+            padding: var(--space-xs) 0;
+            border-bottom: 1px solid var(--shadow);
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: var(--charcoal);
+            color: white;
+            padding: var(--space-lg) var(--space-md);
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: var(--space-md);
+            margin: var(--space-md) 0;
+        }
+
+        .footer-links a {
+            color: white;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+        }
+
+        .copyright {
+            opacity: 0.6;
+            font-size: 0.9rem;
+            margin-top: var(--space-md);
+        }
+
+        /* ===== MODAL ===== */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            padding: var(--space-md);
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            max-width: 800px;
+            max-height: 90vh;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            padding: var(--space-xs);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            section {
+                padding: var(--space-lg) var(--space-sm);
+            }
+        }
+
+        @media (min-width: 769px) {
+            .about-content {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes wobble {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-5deg); }
+            75% { transform: rotate(5deg); }
+        }
+
+        @keyframes popUp {
+            0% { 
+                transform: translateY(0) scale(1) rotate(0deg);
+                opacity: 1;
+            }
+            100% { 
+                transform: translateY(-20px) scale(1.5) rotate(180deg);
+                opacity: 0;
+            }
+        }
+
+        .bottle-cap.wobble {
+            animation: wobble 0.3s ease-in-out;
+        }
+
+        .bottle-cap.pop-up {
+            animation: popUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+            #about {
+        background: #fff3cd !important;
+        border: 3px solid red !important;
+        min-height: 300px !important;
+        position: relative !important;
+        z-index: 10 !important;
+    }
+
+    #about * {
+        color: #000 !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+
+
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <div class="nav-container">
+            <div class="logo">
+                <h2 style="margin: 0; font-size: 1.25rem;">The Water Stop</h2>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#events">Events</a></li>
+                <li><a href="#gallery">Gallery</a></li>
+                <li><a href="#contact">Visit</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero" id="home">
+        <div class="hero-content">
+            <h1>The Water Stop</h1>
+            <div class="hero-divider"></div>
+            <p>American comfort food on the covered patio in Marfa, Texas</p>
+            <p class="time-greeting" id="timeGreeting"></p>
+        </div>
+    </header>
+
+    <!-- About Section -->
+    <!-- About Section -->
+<section id="about">
+    <h2>Our Story</h2>
+
+    <div class="about-content">
+        <div>
+            <p>
+                Located on the historic West San Antonio Street, The Water Stop brings together
+                the best of West Texas hospitality with American comfort food classics.
+            </p>
+            <p>
+                We believe in good food, good drinks, and good company. Our covered patio is the
+                perfect spot to watch the Marfa sunset.
+            </p>
+        </div>
+
+        <div>
+            <p>
+                We're proud to serve locally-sourced ingredients whenever possible and support
+                our fellow Marfa businesses. Everything is made with care and attention to detail.
+            </p>
+        </div>
+    </div>
+
+    <div class="about-highlights">
+        <div class="highlight">
+            <div class="highlight-icon">🐕</div>
+            <h3>Dog Friendly</h3>
+            <p>Bring your furry friends to our covered patio</p>
+        </div>
+
+        <div class="highlight">
+            <div class="highlight-icon">🌵</div>
+            <h3>Local Focus</h3>
+            <p>Featuring West Texas ingredients and brews</p>
+        </div>
+
+        <div class="highlight">
+            <div class="highlight-icon">🍹</div>
+            <h3>Signature Cocktails</h3>
+            <p>Creative drinks inspired by the high desert</p>
+        </div>
+    </div>
+</section>
+
+
+    <!-- Menu Section -->
+    <section id="menu">
+        <div class="menu-header">
+            <h2>Menu</h2>
+        </div>
+        
+        <!-- Bottle Cap Animation -->
+        <div class="bottle-cap-container">
+            <div class="bottle-cap" id="bottleCap">
+                <div class="cap-notch"></div>
+                <div class="cap-text">Menu</div>
+            </div>
+        </div>
+
+        <!-- Menu Filters -->
+        <div class="menu-filters">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="veg">Vegetarian</button>
+            <button class="filter-btn" data-filter="spicy">Spicy</button>
+            <button class="filter-btn" data-filter="drink">Drinks</button>
+        </div>
+
+        <!-- Menu Grid -->
+        <div class="menu-grid" id="menuGrid">
+            <!-- Menu items will be generated by JavaScript -->
+        </div>
+    </section>
+
+    <!-- Events Section -->
+    <section id="events">
+        <h2>Events & Specials</h2>
+        <div class="events-grid">
+            <div class="event-card">
+                <div class="event-date">Every Thursday</div>
+                <h3>Burger & Beer Night</h3>
+                <p>House burger with any draft beer for $25</p>
+            </div>
+            <div class="event-card">
+                <div class="event-date">Friday & Saturday</div>
+                <h3>Live Music on the Patio</h3>
+                <p>Local musicians from 7-9 PM</p>
+            </div>
+            <div class="event-card">
+                <div class="event-date">Sunday</div>
+                <h3>Family Style Dinner</h3>
+                <p>Rotisserie chicken, sides, and dessert for the table</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery">
+        <h2>Gallery</h2>
+        <div class="gallery-grid">
+            <!-- Gallery items will be generated by JavaScript -->
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <h2>Visit Us</h2>
+        <div class="contact-grid">
+            <div class="contact-info">
+                <div class="contact-item">
+                    <div class="contact-icon">📍</div>
+                    <div>
+                        <h3>Address</h3>
+                        <p>1300 W San Antonio St<br>Marfa, TX 79843</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">📞</div>
+                    <div>
+                        <h3>Phone</h3>
+                        <p><a href="tel:+14322953302">(432) 295-3302</a></p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">📧</div>
+                    <div>
+                        <h3>Email</h3>
+                        <p><a href="mailto:hello@waterstopmarfa.com">hello@waterstopmarfa.com</a></p>
+                    </div>
+                </div>
+            </div>
+            <div class="contact-info">
+                <h3>Hours</h3>
+                <ul class="hours-list">
+                    <li><span>Monday - Thursday</span><span>5 PM - 9 PM</span></li>
+                    <li><span>Friday - Saturday</span><span>5 PM - 10 PM</span></li>
+                    <li><span>Sunday</span><span>4 PM - 9 PM</span></li>
+                </ul>
+                <p><em>Kitchen closes 30 minutes before closing</em></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <h2 style="color: white; margin-bottom: var(--space-md);">The Water Stop</h2>
+            <div class="footer-links">
+                <a href="#about">About</a>
+                <a href="#menu">Menu</a>
+                <a href="#contact">Visit</a>
+            </div>
+            <p>American comfort food in the heart of Marfa, Texas</p>
+            <p class="copyright">© 2024 The Water Stop. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Gallery Modal -->
+    <div class="modal" id="galleryModal">
+        <button class="modal-close" id="modalClose">&times;</button>
+        <div class="modal-content">
+            <img id="modalImage" src="" alt="">
+        </div>
+    </div>
+
+    <script>
+        // ===== WATER STOP WEBSITE - SINGLE FILE JAVASCRIPT =====
+        
+        const WaterStop = (() => {
+            // State variables
+            let bottleCapPlayed = false;
+            let currentFilter = 'all';
+            
+            // DOM References
+            const refs = {
+                timeGreeting: document.getElementById('timeGreeting'),
+                bottleCap: document.getElementById('bottleCap'),
+                menuGrid: document.getElementById('menuGrid'),
+                filterButtons: document.querySelectorAll('.filter-btn'),
+                galleryGrid: document.querySelector('.gallery-grid'),
+                galleryModal: document.getElementById('galleryModal'),
+                modalImage: document.getElementById('modalImage'),
+                modalClose: document.getElementById('modalClose')
+            };
+            
+            // Menu Data
+            const menuItems = [
+                {
+                    id: 1,
+                    name: "House Burger",
+                    description: "Grass-fed beef, house sauce, pickles, lettuce, tomato on brioche",
+                    price: "$18",
+                    category: "mains",
+                    tags: ["spicy"],
+                    available: true
+                },
+                {
+                    id: 2,
+                    name: "Green Chile Cheeseburger",
+                    description: "Beef patty with roasted green chiles and pepper jack cheese",
+                    price: "$19",
+                    category: "mains",
+                    tags: ["spicy"],
+                    available: true
+                },
+                {
+                    id: 3,
+                    name: "Spicy Chicken Sandwich",
+                    description: "Buttermilk fried chicken with jalapeño slaw and comeback sauce",
+                    price: "$17",
+                    category: "mains",
+                    tags: ["spicy"],
+                    available: true
+                },
+                {
+                    id: 4,
+                    name: "Caesar Salad",
+                    description: "Romaine, parmesan, croutons with optional grilled chicken",
+                    price: "$14",
+                    category: "mains",
+                    tags: ["veg"],
+                    available: true
+                },
+                {
+                    id: 5,
+                    name: "Black Bean Burger",
+                    description: "House-made black bean patty with avocado and chipotle mayo",
+                    price: "$16",
+                    category: "mains",
+                    tags: ["veg"],
+                    available: true
+                },
+                {
+                    id: 6,
+                    name: "Grain Bowl",
+                    description: "Quinoa, roasted vegetables, tahini dressing, pickled onions",
+                    price: "$15",
+                    category: "mains",
+                    tags: ["veg"],
+                    available: true
+                },
+                {
+                    id: 7,
+                    name: "Jalapeño Mac & Cheese",
+                    description: "Creamy mac with roasted jalapeños and breadcrumb topping",
+                    price: "$12",
+                    category: "sides",
+                    tags: ["spicy", "veg"],
+                    available: true
+                },
+                {
+                    id: 8,
+                    name: "Burrata & Heirloom Tomatoes",
+                    description: "Fresh burrata with local tomatoes, basil, balsamic",
+                    price: "$14",
+                    category: "starters",
+                    tags: ["veg"],
+                    available: true
+                },
+                {
+                    id: 9,
+                    name: "Steak Frites",
+                    description: "8oz flat iron steak with garlic fries and chimichurri",
+                    price: "$28",
+                    category: "mains",
+                    tags: [],
+                    available: false
+                },
+                {
+                    id: 10,
+                    name: "Rotisserie Chicken",
+                    description: "Half chicken with roasted potatoes and seasonal vegetables",
+                    price: "$24",
+                    category: "mains",
+                    tags: [],
+                    available: true
+                },
+                {
+                    id: 11,
+                    name: "Marfa Mule",
+                    description: "Local vodka, ginger beer, lime, mint",
+                    price: "$14",
+                    category: "drinks",
+                    tags: ["drink"],
+                    available: true
+                },
+                {
+                    id: 12,
+                    name: "Desert Paloma",
+                    description: "Tequila, grapefruit, lime, chili rim",
+                    price: "$13",
+                    category: "drinks",
+                    tags: ["drink", "spicy"],
+                    available: true
+                },
+                {
+                    id: 13,
+                    name: "Seasonal Cocktail",
+                    description: "Ask your server for today's special creation",
+                    price: "$15",
+                    category: "drinks",
+                    tags: ["drink"],
+                    available: false
+                },
+                {
+                    id: 14,
+                    name: "Local Beer Flight",
+                    description: "Three 5oz pours of Texas craft beers",
+                    price: "$16",
+                    category: "drinks",
+                    tags: ["drink"],
+                    available: true
+                },
+                {
+                    id: 15,
+                    name: "Elote",
+                    description: "Grilled corn, cotija, chili powder, lime",
+                    price: "$8",
+                    category: "sides",
+                    tags: ["spicy", "veg"],
+                    available: true
+                }
+            ];
+            
+            // Gallery Images (using placeholder URLs)
+            const galleryImages = [
+                {
+                    src: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+                    alt: "Restaurant interior with warm lighting"
+                },
+                {
+                    src: "https://images.unsplash.com/photo-1578474846511-04ba529f0b88?ixlib=rb-1.2.1&auto=format&fit=crop&w-800&q=80",
+                    alt: "Burger and fries on wooden table"
+                },
+                {
+                    src: "https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+                    alt: "Delicious pizza slice"
+                },
+                {
+                    src: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+                    alt: "Cocktails on the patio"
+                },
+                {
+                    src: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+                    alt: "Chef preparing food"
+                },
+                {
+                    src: "https://images.unsplash.com/photo-1559925393-8be0ec4767c8?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+                    alt: "Patio dining at sunset"
+                }
+            ];
+            
+            // ===== INITIALIZATION =====
+            const init = () => {
+                cacheRefs();
+                setupTimeGreeting();
+                setupIntersectionObserver();
+                setupMenuFiltering();
+                renderMenuItems();
+                setupGallery();
+                setupModal();
+            };
+            
+            // ===== CACHE REFERENCES =====
+            const cacheRefs = () => {
+                // Already cached in refs object
+            };
+            
+            // ===== TIME-BASED GREETING =====
+            const setupTimeGreeting = () => {
+                const getTimeMessage = () => {
+                    const hour = new Date().getHours();
+                    if (hour < 11) return "Morning coffee on the patio";
+                    if (hour < 15) return "Lunch in the West Texas sun";
+                    if (hour < 18) return "Perfect patio weather";
+                    if (hour < 21) return "Evening cocktails under the stars";
+                    return "Kitchen closed — see you tomorrow";
+                };
+                
+                const updateGreeting = () => {
+                    refs.timeGreeting.textContent = getTimeMessage();
+                    
+                    // Optional: Update color based on time
+                    const hour = new Date().getHours();
+                    if (hour >= 18 || hour < 6) {
+                        refs.timeGreeting.style.color = 'var(--patina)';
+                    }
+                };
+                
+                updateGreeting();
+                // Update every minute
+                setInterval(updateGreeting, 60000);
+            };
+            
+            // ===== BOTTLE CAP ANIMATION =====
+            const setupIntersectionObserver = () => {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting && !bottleCapPlayed) {
+                            playBottleCapAnimation();
+                            bottleCapPlayed = true;
+                        }
+                    });
+                }, { threshold: 0.3 });
+                
+                observer.observe(refs.bottleCap);
+            };
+            
+            const playBottleCapAnimation = () => {
+                const cap = refs.bottleCap;
+                
+                // Add wobble animation
+                cap.classList.add('wobble');
+                
+                // After wobble, pop up and fade out
+                setTimeout(() => {
+                    cap.classList.remove('wobble');
+                    cap.classList.add('pop-up');
+                    
+                    // Show menu items with delay
+                    setTimeout(() => {
+                        refs.menuGrid.style.opacity = '1';
+                    }, 400);
+                }, 300);
+            };
+            
+            // ===== MENU FILTERING =====
+            const setupMenuFiltering = () => {
+                refs.filterButtons.forEach(button => {
+                    button.addEventListener('click', () => {
+                        // Update active button
+                        refs.filterButtons.forEach(btn => btn.classList.remove('active'));
+                        button.classList.add('active');
+                        
+                        // Get filter value
+                        currentFilter = button.dataset.filter;
+                        
+                        // Fade out, filter, fade in
+                        fadeAndFilterMenu();
+                    });
+                });
+            };
+            
+            const fadeAndFilterMenu = () => {
+                // Fade out
+                refs.menuGrid.classList.add('fading');
+                
+                // Wait for fade out, then filter and fade in
+                setTimeout(() => {
+                    renderMenuItems();
+                    refs.menuGrid.classList.remove('fading');
+                }, 300);
+            };
+            
+            const renderMenuItems = () => {
+                // Clear current items
+                refs.menuGrid.innerHTML = '';
+                
+                // Filter items
+                const filteredItems = menuItems.filter(item => {
+                    if (currentFilter === 'all') return true;
+                    if (currentFilter === 'veg') return item.tags.includes('veg');
+                    if (currentFilter === 'spicy') return item.tags.includes('spicy');
+                    if (currentFilter === 'drink') return item.tags.includes('drink');
+                    return true;
+                });
+                
+                // Sort by category
+                filteredItems.sort((a, b) => {
+                    const categoryOrder = { starters: 1, mains: 2, sides: 3, drinks: 4 };
+                    return (categoryOrder[a.category] || 5) - (categoryOrder[b.category] || 5);
+                });
+                
+                // Render items
+                filteredItems.forEach(item => {
+                    const menuItem = document.createElement('div');
+                    menuItem.className = `menu-item ${!item.available ? 'sold-out' : ''}`;
+                    
+                    // Create tags HTML
+                    const tagsHTML = item.tags.map(tag => 
+                        `<span class="tag ${tag}">${tag}</span>`
+                    ).join('');
+                    
+                    menuItem.innerHTML = `
+                        <div class="item-header">
+                            <h3 class="item-name">${item.name}</h3>
+                            <span class="item-price">${item.price}</span>
+                        </div>
+                        <p class="item-desc">${item.description}</p>
+                        ${tagsHTML ? `<div class="item-tags">${tagsHTML}</div>` : ''}
+                        ${!item.available ? '<div class="sold-out-badge">Sold Out</div>' : ''}
+                    `;
+                    
+                    refs.menuGrid.appendChild(menuItem);
+                });
+                
+                // If no items match filter
+                if (filteredItems.length === 0) {
+                    const noItems = document.createElement('div');
+                    noItems.className = 'menu-item';
+                    noItems.innerHTML = `
+                        <h3>No items found</h3>
+                        <p>Try another filter or check back soon for new additions!</p>
+                    `;
+                    refs.menuGrid.appendChild(noItems);
+                }
+            };
+            
+            // ===== GALLERY SETUP =====
+            const setupGallery = () => {
+                galleryImages.forEach((image, index) => {
+                    const galleryItem = document.createElement('div');
+                    galleryItem.className = 'gallery-item';
+                    galleryItem.innerHTML = `
+                        <img src="${image.src}" alt="${image.alt}" loading="lazy" data-index="${index}">
+                    `;
+                    
+                    galleryItem.addEventListener('click', () => openModal(image.src, image.alt));
+                    refs.galleryGrid.appendChild(galleryItem);
+                });
+            };
+            
+            // ===== MODAL SETUP =====
+            const setupModal = () => {
+                refs.modalClose.addEventListener('click', closeModal);
+                refs.galleryModal.addEventListener('click', (e) => {
+                    if (e.target === refs.galleryModal) closeModal();
+                });
+                
+                // Close with Escape key
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape') closeModal();
+                });
+            };
+            
+            const openModal = (src, alt) => {
+                refs.modalImage.src = src;
+                refs.modalImage.alt = alt;
+                refs.galleryModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            };
+            
+            const closeModal = () => {
+                refs.galleryModal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            };
+            
+            // ===== EXPOSE PUBLIC METHODS =====
+            return { init };
+        })();
+        
+        // ===== INITIALIZE ON DOM LOAD =====
+        document.addEventListener('DOMContentLoaded', () => {
+            WaterStop.init();
+            
+            // Smooth scroll for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        const headerOffset = 80;
+                        const elementPosition = targetElement.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                        
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+            
+            // Add scroll effect to navigation
+            window.addEventListener('scroll', () => {
+                const nav = document.querySelector('.main-nav');
+                if (window.scrollY > 100) {
+                    nav.style.boxShadow = '0 4px 20px rgba(0,0,0,0.1)';
+                } else {
+                    nav.style.boxShadow = 'none';
+                }
+            });
+        });
+        
+        // ===== ERROR HANDLING =====
+        window.addEventListener('error', (e) => {
+            console.error('Website error:', e.error);
+            // Gracefully handle any errors
+        });
+    </script>
+</body>
+</html>
